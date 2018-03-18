@@ -31,5 +31,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "http://lxdnz254.github.io/react-test"
+  "homepage": "https://aria-orienteering.github.io/mockweb-app"
 }
