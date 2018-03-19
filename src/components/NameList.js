@@ -12,7 +12,7 @@ export default function NameList({name})  {
 
 NameList.propTypes = {
     name: PropTypes.object.isRequired
-}
+};
 
 
 

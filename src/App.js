@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './images/compass_icon.png';
 import './css/App.css';
-import Hello from './Hello' ;
-import MapContainer from "./MapContainer";
+import Hello from './components/Hello' ;
+import MapContainer from "./components/MapContainer";
+import { Card, Button, CardHeader, CardBody } from 'reactstrap'
 
 class App extends Component {
   render() {
@@ -14,8 +15,27 @@ class App extends Component {
         </header>
           <div className="container-fluid">
               <div className="row">
-                <Hello className="col-xs-3"/>
-                  <MapContainer className="col-xs-9"/>
+                  <div className="col-sm-3">
+                      <Card>
+                          <div className="bg-info clearfix">
+                            <CardHeader>User List</CardHeader>
+                          </div>
+                          <CardBody>
+                              <Hello/>
+                          </CardBody>
+                          <Button className="bg-primary">Click Here</Button>
+                      </Card>
+                  </div>
+                  <div className="col-sm-9">
+                      <Card>
+                          <div className="bg-info clearfix">
+                              <CardHeader>Orienteering Map</CardHeader>
+                          </div>
+                          <CardBody>
+                              <MapContainer/>
+                          </CardBody>
+                      </Card>
+                  </div>
             </div>
           </div>
       </div>
