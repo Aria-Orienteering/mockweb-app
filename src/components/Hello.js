@@ -20,9 +20,8 @@ class Hello extends Component {
         return (
             <div className="Hello">
                 <NameInput value={this.state.name} onChange={this.changeName.bind(this)} />
-                <p>
-                    Hello <NameList name={this.state.name}/>, This is where the user information will go
-                </p>
+                <p>Hello <NameList name={this.state.name}/>, This is will be the login section.</p>
+                <p> Below will be active user Buttons.</p>
             </div>
         )
     }

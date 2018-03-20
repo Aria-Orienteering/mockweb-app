@@ -12,7 +12,7 @@ export default class MapContainer extends Component {
         }
     };
 
-    static renderMarkers(map, maps) {
+    renderMarkers(map, maps) {
         return new maps.Marker({
             position: myLatLng,
             map,

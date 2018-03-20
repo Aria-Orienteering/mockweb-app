@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import logo from './images/compass_icon.png';
 import './css/App.css';
 import Hello from './components/Hello' ;
-import MapContainer from "./components/MapContainer";
+import MapContainer from './components/MapContainer';
+import UserButton from './components/UserButton';
 import { Card, Button, CardHeader, CardBody } from 'reactstrap'
+
+const a = ['Jeff', 'Gemima', 'Teddy', 'Manu'];
 
 class App extends Component {
   render() {
@@ -22,6 +25,9 @@ class App extends Component {
                           </div>
                           <CardBody>
                               <Hello/>
+                              <div>
+                                  {React.Children.map(a, i => <UserButton name={i}/>)}
+                              </div>
                           </CardBody>
                           <Button className="bg-primary">Click Here</Button>
                       </Card>
