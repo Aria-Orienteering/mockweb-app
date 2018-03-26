@@ -7,6 +7,7 @@
     "dotenv": "^5.0.1",
     "google-map-react": "^0.34.0",
     "lodash": "^4.17.5",
+    "node-sass-chokidar": "^1.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "reactstrap": "^5.0.0-beta.2",
@@ -15,17 +16,22 @@
   },
   "devDependencies": {
     "gh-pages": "^1.1.0",
+    "npm-run-all": "^4.1.2",
     "react-scripts": "1.1.1"
   },
   "peerDependencies": {
     "googlemaps": "^3.0.0",
     "markerclustererplus": "^2.1.29",
-    "react": "^15.0.0 || ^16.0.0",
-    "prop-types": "^15.5.6"
+    "prop-types": "^15.5.6",
+    "react": "^15.0.0 || ^16.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-css": "node-sass-chokidar src/css/ -o src/css/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/css/ -o src/css/ --watch --recursive",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm-run-all build-css build-js",
+    "start-js": "react-scripts start",
+    "build-js": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
