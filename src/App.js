@@ -1,14 +1,56 @@
 import React, { Component } from 'react';
 import logo from './images/compass_icon.png';
 import './css/App.css';
-import Hello from './components/Hello' ;
+import Login from './components/Login' ;
 import MapContainer from './components/MapContainer';
 import UserButton from './components/UserButton';
-import { Card, Button, CardHeader, CardBody } from 'reactstrap'
+import { Card, CardHeader, CardBody } from 'reactstrap'
+import firebase from 'firebase'
 
-const a = ['Jeff', 'Gemima', 'Teddy', 'Manu'];
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            users: [],
+            firstName: [],
+        }
+    }
+
+    componentDidMount() {
+        const rootRef = firebase.database().ref();
+        const users = rootRef.child('users');
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log('user changed..', user);
+                this.listenUsers(users)
+            } else {
+                // No user is signed in.
+                this.setState({
+                    firstName: [],
+                })
+            }
+        });
+    }
+
+    listenUsers(users) {
+        users.on('value', snap => {
+
+            this.setState({
+                firstName: []
+            });
+
+            snap.forEach(child => {
+                this.setState({
+                    users: this.state.users.concat([child.key]),
+                    firstName: this.state.firstName.concat([child.val().firstName])
+                });
+
+            });
+        });
+    }
+
   render() {
     return (
       <div className="App">
@@ -24,12 +66,11 @@ class App extends Component {
                             <CardHeader>User List</CardHeader>
                           </div>
                           <CardBody>
-                              <Hello/>
-                              <div>
-                                  {React.Children.map(a, i => <UserButton name={i}/>)}
-                              </div>
+                              <Login/>
+                                  <div className="userList">
+                                      {React.Children.map(this.state.firstName, i => <UserButton name={i}/>)}
+                                  </div>
                           </CardBody>
-                          <Button className="bg-primary">Click Here</Button>
                       </Card>
                   </div>
                   <div className="col-sm-9">

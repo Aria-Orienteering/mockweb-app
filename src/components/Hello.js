@@ -17,13 +17,11 @@ class Hello extends Component {
     }
 
     render() {
-        return (
-            <div className="Hello">
-                <NameInput value={this.state.name} onChange={this.changeName.bind(this)} />
-                <p>Hello <NameList name={this.state.name}/>, This will be the login section with a password.</p>
-                <p> Below will be active user Buttons.</p>
-            </div>
-        )
+        return <div className="Hello">
+            <NameInput value={this.state.name} onChange={this.changeName.bind(this)}/>
+            <p>Hello <NameList name={this.state.name}/>, This will be the login section with a password.</p>
+            <p> Below will be active user Buttons.</p>
+        </div>
     }
 
 }
