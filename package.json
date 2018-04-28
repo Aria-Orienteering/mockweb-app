@@ -12,11 +12,14 @@
     "mui-icons": "^1.2.1",
     "node-sass-chokidar": "^1.2.1",
     "npm": "^6.0.0",
+    "pubsub-js": "^1.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
     "reactstrap": "^5.0.0-beta.2",
     "recompose": "^0.26.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "gh-pages": "^1.1.0",

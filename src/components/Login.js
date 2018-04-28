@@ -7,7 +7,7 @@ const iconStyles = {
     color: "#ffffff"
 };
 
-export let user
+export let user;
 
 class Login extends Component {
     constructor() {

@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function NameList({name})  {
+export default function NameList({user})  {
 
         return (
             <span className="to">
-                <span className="value">{name.to}</span>
+                <span className="value">{user.firstName}</span>
             </span>
         );
     }
 
 NameList.propTypes = {
-    name: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired
 };
 
 

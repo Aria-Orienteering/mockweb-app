@@ -1,29 +1,30 @@
 import React, { Component} from 'react' ;
-import NameList from './NameList';
-import NameInput from './NameInput';
+import PubSub from  'pubsub-js'
 
 class Hello extends Component {
     constructor() {
         super();
         this.state = {
-            name: {
-                to: ''
-            }
+            selection: 'none'
         }
     }
 
-    changeName(e) {
-        this.setState({name: { to: e.target.value }})
+    componentWillMount() {
+        // React will mount me, I can subscribe to the topic 'products'
+        // `.subscribe()` returns a token used to unsubscribe
+        this.token = PubSub.subscribe('user', (topic, user) => {
+            this.setState({selection: user});
+        });
+    }
+
+    componentWillUnmount() {
+        // React removed me from the DOM, I have to unsubscribe from the system using my token
+        PubSub.unsubscribe(this.token);
     }
 
     render() {
-        return <div className="Hello">
-            <NameInput value={this.state.name} onChange={this.changeName.bind(this)}/>
-            <p>Hello <NameList name={this.state.name}/>, This will be the login section with a password.</p>
-            <p> Below will be active user Buttons.</p>
-        </div>
+        return <div>You have selected the user: {this.state.selection.firstName}</div>
     }
-
 }
 
 export default Hello;
