@@ -3,3 +3,13 @@
   margin-right: auto;
   width: 75%;
   height: 500px; }
+
+.map {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 300px; }
+
+@media screen and (min-width: 1024px) {
+  .map {
+    height: 500px; } }

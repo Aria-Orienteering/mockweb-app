@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import logo from './images/compass_icon.png';
 import './css/App.css';
 import Login from './components/Login' ;
+// import the Google Maps API Wrapper from google-maps-react
+import { GoogleApiWrapper } from 'google-maps-react'
+// import child component
 import MapContainer from './components/MapContainer';
 import UserButtons from './components/UserButtons';
 import Hello from './components/Hello';
@@ -60,7 +63,7 @@ class App extends Component {
                               <CardHeader>Orienteering Map</CardHeader>
                           </div>
                           <CardBody>
-                              <MapContainer/>
+                              <MapContainer google={this.props.google}/>
                           </CardBody>
                       </Card>
                   </div>
@@ -72,4 +75,6 @@ class App extends Component {
   }
 }
 
-export default App;
+export default GoogleApiWrapper({
+    apiKey: [process.env.REACT_APP_GOOGLE_MAP_API_KEY]
+})(App);

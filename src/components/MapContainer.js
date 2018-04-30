@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import  GoogleMapReact from 'google-map-react'
+import ReactDOM from 'react-dom';
 import '../css/MapContainer.css'
 import PubSub from "pubsub-js";
 import {getUsersThunk, watchUserChangedEvent} from "../store/Store";
@@ -7,13 +7,18 @@ import {connect} from "react-redux";
 
 // const AnyReactComponent = ({ text }) => <div>{ text }</div>;
 let myLatLng = {lat: -38.560926, lng: 174.983468};
+let marker;
 
 class MapContainer extends Component {
     static defaultProps = {
         options: {mapTypeControl: true,
             styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }]
-        }
+        },
+        symbol: {
+
+        },
     };
+
     constructor() {
         super();
         this.state = {
@@ -21,9 +26,10 @@ class MapContainer extends Component {
             zoom: 14,
             selection: '',
         };
+
     }
 
-    renderMarkers(map, maps) {
+    renderFixedMarkers(map, maps) {
         return new maps.Marker({
             position: myLatLng,
             map,
@@ -31,21 +37,41 @@ class MapContainer extends Component {
         });
     }
 
-    renderUser(map, maps) {
-        console.log('In Render User');
-        let i = this.props.users.findIndex(i => i.firstName === this.state.selection.firstName)
+    renderUser() {
+        let maps = this.props.google.maps;
+        if (marker) {
+            marker.setMap(null);
+        }
+        let symbol = {
+            path: maps.SymbolPath.CIRCLE,
+            fillColor: 'cyan',
+            fillOpacity: 0.6,
+            strokeColor: 'white',
+            strokeOpacity: 0.9,
+            strokeWeight: 1.5,
+            scale: 5
+        };
+
+        let i = this.props.users.findIndex(i => i.firstName === this.state.selection.firstName);
         if (i > -1) {
+            console.log('In Render User');
             let user = this.props.users[i];
             let userLatLng = {lat: user.lat, lng: user.lon};
-            map.add(maps.Marker({
+            marker = new maps.Marker({
                 position: userLatLng,
-                map,
-                title: user.firstName
-            }));
+                map: this.map,
+                title: user.firstName,
+                icon: symbol,
+            });
+
+            marker.setMap(this.map);
+
         } else {
-            return null
+            return null;
         }
+
     }
+
 
     componentWillMount() {
         // React will mount me, I can subscribe to the topic 'products'
@@ -53,11 +79,46 @@ class MapContainer extends Component {
         this.token = PubSub.subscribe('user', (topic, user) => {
             this.setState({selection: user});
         });
+
+    }
+
+    componentDidMount() {
+        this.loadMap()
     }
 
     componentWillUnmount() {
         // React removed me from the DOM, I have to unsubscribe from the system using my token
         PubSub.unsubscribe(this.token);
+    }
+
+    componentDidUpdate() {
+        this.renderUser();
+    }
+
+    loadMap() {
+        if (this.props && this.props.google) { // checks to make sure that props have been passed
+
+            const {google} = this.props; // sets props equal to google
+            const maps = google.maps; // sets maps to google maps props
+
+            const mapRef = this.refs.map; // looks for HTML div ref 'map'. Returned in render below.
+            const node = ReactDOM.findDOMNode(mapRef); // finds the 'map' div in the React DOM, names it node
+
+            const mapConfig = Object.assign({}, {
+                center: myLatLng, // sets center of google map to Aria.
+                zoom: 12, // sets zoom. Lower numbers are zoomed further out.
+                mapTypeId: 'hybrid' // optional main map layer. Terrain, satellite, hybrid or roadmap--if unspecified, defaults to roadmap.
+            });
+
+
+            this.map = new maps.Map(node, mapConfig); // creates a new Google map on the specified node (ref='map') with the specified configuration set above.
+
+            // ==================
+            // ADD MARKERS TO MAP
+            // ==================
+            this.renderFixedMarkers(this.map,maps);
+            this.renderUser();
+        }
     }
 
     _onChange = ({center, zoom}) => {
@@ -69,20 +130,14 @@ class MapContainer extends Component {
 
 
     render() {
-        const markers = ({map, maps}) => this.renderMarkers(map, maps);
-        let users = ({map, maps}) => this.renderUser(map, maps);
+        const style = { // MUST specify dimensions of the Google map or it will not work. Also works best when style is specified inside the render function and created as an object
+            width: '66vw', // 90vw basically means take up 90% of the width screen. px also works.
+            height: '66vh' // 75vh similarly will take up roughly 75% of the height of the screen. px also works.
+        }
+
         return (
-            <div className='google-map'>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: [process.env.REACT_APP_GOOGLE_MAP_API_KEY] }}
-                    onChange={this._onChange}
-                    center={this.state.center}
-                    zoom={this.state.zoom}
-                    options = {this.props.options}
-                    onGoogleApiLoaded={markers}
-                    >
-                    {users}
-                </GoogleMapReact>
+            <div ref="map" style={style}>
+                loading map...
             </div>
         )
     }
