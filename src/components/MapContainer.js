@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 // const AnyReactComponent = ({ text }) => <div>{ text }</div>;
 let myLatLng = {lat: -38.560926, lng: 174.983468};
 let marker;
+let courseMarkers = [];
 
 class MapContainer extends Component {
     static defaultProps = {
@@ -66,10 +67,32 @@ class MapContainer extends Component {
 
             marker.setMap(this.map);
 
+            if (user.course_object != null) {
+                this.addCourseMarkers(this.map, maps, user.course_object)
+            }
+
         } else {
             return null;
         }
 
+    }
+
+    addCourseMarkers(map, maps, course) {
+
+        if (courseMarkers.length > 0) {
+            courseMarkers.forEach(marker => marker.setMap(null));
+        }
+        courseMarkers = [];
+        course.markers.map(mark => this.addMarker(mark,map, maps));
+    }
+
+    addMarker(mark, map, maps) {
+        let newMark = new maps.Marker({
+            position: {lat: mark.lat, lng: mark.lon},
+            map: map,
+        });
+        newMark.setMap(map);
+        courseMarkers.push(newMark);
     }
 
 

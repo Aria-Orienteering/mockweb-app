@@ -34,6 +34,9 @@ class Hello extends Component {
             <p>You have selected the user: {user.firstName}</p>
             <p>Longitude: {user.lon}</p>
             <p>Latitude: {user.lat}</p>
+            {user.course_object != null &&
+                <p>{user.firstName} is on course: {user.course_object.id}</p>
+            }
         </div>
     }
 
