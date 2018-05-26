@@ -67,8 +67,8 @@ class MapContainer extends Component {
 
             marker.setMap(this.map);
 
-            if (user.course_object != null) {
-                this.addCourseMarkers(this.map, maps, user.course_object)
+            if (user.courseObject != null) {
+                this.addCourseMarkers(this.map, maps, user.courseObject)
             }
 
         } else {
@@ -90,9 +90,45 @@ class MapContainer extends Component {
         let newMark = new maps.Marker({
             position: {lat: mark.lat, lng: mark.lon},
             map: map,
+            icon: this.statusSymbol(mark.status, maps)
         });
         newMark.setMap(map);
         courseMarkers.push(newMark);
+    }
+
+    statusSymbol(status, maps) {
+        console.log("status is :",status)
+        if(status === "NOT_FOUND") {
+            return {
+                path: maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                fillColor: 'yellow',
+                fillOpacity: 0.6,
+                strokeColor: 'white',
+                strokeOpacity: 0.9,
+                strokeWeight: 1.5,
+                scale: 5
+            }
+        } else if (status === "FOUND") {
+            return {
+                path: maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                fillColor: 'green',
+                fillOpacity: 0.6,
+                strokeColor: 'white',
+                strokeOpacity: 0.9,
+                strokeWeight: 1.5,
+                scale: 5
+            }
+        } else if (status === "TARGET") {
+            return {
+                path: maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                fillColor: 'orange',
+                fillOpacity: 0.6,
+                strokeColor: 'white',
+                strokeOpacity: 0.9,
+                strokeWeight: 1.5,
+                scale: 5
+            }
+        }
     }
 
 
