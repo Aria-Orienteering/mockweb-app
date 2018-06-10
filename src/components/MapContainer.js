@@ -24,7 +24,7 @@ class MapContainer extends Component {
         super();
         this.state = {
             center: [-38.560926, 174.983468],
-            zoom: 14,
+            zoom: 8,
             selection: '',
         };
 
@@ -69,12 +69,26 @@ class MapContainer extends Component {
 
             if (user.courseObject != null) {
                 this.addCourseMarkers(this.map, maps, user.courseObject)
+                if (this.foundMarkers(user.courseObject) === user.courseObject.markers.length) {
+                    this.addMarker(user.homeMarker, this.map, maps)
+                }
             }
 
         } else {
             return null;
         }
 
+    }
+
+    foundMarkers(course) {
+        let markers = course.markers;
+        let foundCount = 0;
+        markers.forEach(marker => {
+            if(marker.status === "FOUND"){
+                foundCount++
+            }
+        });
+        return foundCount
     }
 
     addCourseMarkers(map, maps, course) {
@@ -165,7 +179,7 @@ class MapContainer extends Component {
 
             const mapConfig = Object.assign({}, {
                 center: myLatLng, // sets center of google map to Aria.
-                zoom: 12, // sets zoom. Lower numbers are zoomed further out.
+                zoom: 15, // sets zoom. Lower numbers are zoomed further out.
                 mapTypeId: 'hybrid' // optional main map layer. Terrain, satellite, hybrid or roadmap--if unspecified, defaults to roadmap.
             });
 
