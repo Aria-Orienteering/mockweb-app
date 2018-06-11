@@ -7,6 +7,7 @@ import { GoogleApiWrapper } from 'google-maps-react'
 // import child component
 import MapContainer from './components/MapContainer';
 import UserButtons from './components/UserButtons';
+import Results from './components/Results';
 import Hello from './components/Hello';
 import { Card, CardHeader, CardBody, CardFooter } from 'reactstrap'
 import firebase from 'firebase'
@@ -55,6 +56,14 @@ class App extends Component {
                                   </div>
                           </CardBody>
                           <CardFooter><Hello name={this.state.name}/></CardFooter>
+                      </Card>
+                      <Card>
+                          <div className="bg-info clearfix">
+                              <CardHeader>Results</CardHeader>
+                          </div>
+                          <CardBody>
+                              <Results/>
+                          </CardBody>
                       </Card>
                   </div>
                   <div className="col-sm-9">

@@ -216,7 +216,7 @@ class MapContainer extends Component {
     }
 }
 const mapState = state => ({
-    users: state
+    users: state.users
 });
 const mapDispatch = dispatch => {
     dispatch(getUsersThunk());

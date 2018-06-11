@@ -42,12 +42,17 @@ class UserButtons extends Component {
     }
 
     render() {
-                return this.props.users.map(i => this.button(i));
+                console.log("users", this.props.users);
+                if (this.props.users.length > 0 ) {
+                    return this.props.users.map(i => this.button(i));
+                } else {
+                    return <div><p>No Users</p></div>
+                }
     }
 }
 
 const mapState = state => ({
-    users: state
+    users: state.users
 });
 const mapDispatch = dispatch => {
     dispatch(getUsersThunk());

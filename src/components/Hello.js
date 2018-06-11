@@ -59,10 +59,12 @@ class Hello extends Component {
 
 
     render() {
-        let i = this.props.users.findIndex(i => i.firstName === this.state.selection.firstName);
-        if (i > -1) {
+
+         let i = this.props.users.findIndex(i => i.firstName === this.state.selection.firstName);
+         if (i > -1) {
             return this.box(i);
-        } else {
+         }
+         else {
             return <div>
                 <p>You have selected no-one</p>
             </div>
@@ -71,7 +73,7 @@ class Hello extends Component {
 }
 
 const mapState = state => ({
-    users: state
+    users: state.users
 });
 const mapDispatch = dispatch => {
     dispatch(getUsersThunk());
